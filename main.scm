@@ -23,7 +23,7 @@
 
 
 (define (make-double-digit x y)
-  """Take two numbers and make them into their double digit representation."""
+  """Take two numbers and return their double digit representation."""
   (+ y
      (* 10 x)))
 
@@ -44,20 +44,13 @@
 (define (line-wise-loop)
   (let loop ((line (read-line))
              (acc 0))
-    (if (not (eof-object? line))
-        (begin
-          (format #t "line: ~a\n" line)
-          (format #t "numbers: ~a\n" (str->int-list line))
-          (format #t "sum of first and last: ~a\n"
-                  (list->outer-digits (str->int-list line)))
-          (format #t "accumulator: ~a\n"
-                  (+ acc
-                   (list->outer-digits (str->int-list line))))
-          ;; Pass the new state into loop by adding the acc(umulator)
-          ;; to the value generated above
-          (loop (read-line)
-                (+ acc
-                   (list->outer-digits (str->int-list line))))))))
+    (if (eof-object? line)
+        acc
+        ;; Pass the new state into loop by adding the acc(umulator)
+        ;; to the value generated above
+        (loop (read-line)
+              (+ acc
+                 (list->outer-digits (str->int-list line)))))))
 
 
 
@@ -66,4 +59,6 @@
 
 
 (define (main)
-  (loop-over-file "day01/input"))
+  (display (loop-over-file "day01/input"))
+  (newline))
+(main)
