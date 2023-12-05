@@ -2,6 +2,7 @@
   #:use-module (ice-9 rdelim)
   #:export (main))
 
+;; Niceties for folks allergic to cars and cdrs ;3
 (define first car)
 (define rest cdr)
 (define second cdar)
