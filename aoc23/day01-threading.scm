@@ -1,11 +1,22 @@
 (define-module (aoc core)
   #:use-module (ice-9 rdelim)
   #:export (main))
+;; #:use-module (macros threading)
+
 
 ;; Niceties for folks allergic to cars and cdrs ;3
 (define first car)
 (define rest cdr)
 (define second cdar)
+
+
+(define-syntax ->>
+  (syntax-rules ()
+    ((_ x) x)
+    ((_ x (f args ...) rest ...)
+     (->> (f args ... x) rest ...))
+    ((_ x f rest ...)
+     (->> (f x) rest ...))))
 
 
 (define (filter-numeric str)
@@ -25,8 +36,9 @@
 
 (define (make-double-digit x y)
   """Take two numbers and return their double digit representation."""
-  (+ y
-     (* 10 x)))
+  (->> x
+       (* 10)
+       (+ y)))
 
 
 (define (list->outer-digits lst)
@@ -51,7 +63,9 @@
         ;; to the value generated above
         (loop (read-line)
               (+ acc
-                 (list->outer-digits (str->int-list line)))))))
+                 (->> line
+                      str->int-list
+                      list->outer-digits))))))
 
 
 

@@ -1,7 +1,6 @@
-(define-module (aoc core)
+(define-module (aoc23 day01)
   #:use-module (ice-9 rdelim)
-  #:use-module (macros threading)
-  #:export (main))
+  #:export (day01/solution))
 
 ;; Niceties for folks allergic to cars and cdrs ;3
 (define first car)
@@ -26,9 +25,8 @@
 
 (define (make-double-digit x y)
   """Take two numbers and return their double digit representation."""
-  (->> x
-       (* 10)
-       (+ y)))
+  (+ y
+     (* 10 x)))
 
 
 (define (list->outer-digits lst)
@@ -53,9 +51,7 @@
         ;; to the value generated above
         (loop (read-line)
               (+ acc
-                 (->> line
-                      str->int-list
-                      list->outer-digits))))))
+                 (list->outer-digits (str->int-list line)))))))
 
 
 
@@ -63,7 +59,6 @@
   (with-input-from-file filename line-wise-loop))
 
 
-(define (main)
-  (display (loop-over-file "day01/input"))
+(define (day01/solution filename)
+  (display (loop-over-file filename))
   (newline))
-(main)
